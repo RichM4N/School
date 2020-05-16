@@ -70,9 +70,9 @@ struct vec3d getL(){
 
 struct point3d getLstart(struct vec3d vector1){
 	struct point3d outPoint;
-	outPoint.x = -1 * vector1.x/2;
-	outPoint.x = 0;
-	outPoint.x = 0;
+	outPoint.x = (-1 * vector1.x * 0.5);
+	outPoint.y = 0;
+	outPoint.z = 0;
 	return outPoint;
 }
 
@@ -103,14 +103,16 @@ struct vec3d calculateIntegral(struct point3d userPoint, struct point3d Lstart, 
 	sum.y = 0;
 	sum.z = 0;
 	struct vec3d out;
-	
-	for(double j = 0; j < N; j++)
+	double j;
+	for(j = 0; j < N; j++)
 	{
-		currentPosition.x = Lstart.x + ((1 + j*2)/2)*dL.x;
-		currentPosition.y = Lstart.y + ((1 + j*2)/2)*dL.y;
-		currentPosition.z = Lstart.z + ((1 + j*2)/2)*dL.z;
+		currentPosition.x = Lstart.x + ((1 + (j*2))/2)*dL.x;
+		currentPosition.y = Lstart.y + ((1 + (j*2))/2)*dL.y;
+		currentPosition.z = Lstart.z + ((1 + (j*2))/2)*dL.z;
 		
 		R = createVector(currentPosition, userPoint);
+		
+		printf("X = %.15lf\n",vectorLength(R));
 		
 		sum.x = sum.x + ((I*crossProduct(dL, R).x) / pow(vectorLength(R),3));
 		sum.y = sum.y + ((I*crossProduct(dL, R).y) / pow(vectorLength(R),3));
@@ -139,9 +141,9 @@ int main(){
 	
 	output = calculateIntegral(userPoint, Lstart, L, N, I);
 	printf("Vector of magnectic Field at (%lf, %lf,%lf):\n", userPoint.x, userPoint.y, userPoint.z);
-	printf("X = %lf\n",output.x);
-	printf("Y = %lf\n",output.y);
-	printf("Z = %lf\n",output.z);
+	printf("X = %.15lf\n",output.x);
+	printf("Y = %.15lf\n",output.y);
+	printf("Z = %.15lf\n",output.z);
 	
 
 }
